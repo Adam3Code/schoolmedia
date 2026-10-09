@@ -1,0 +1,90 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Convolution playground</title>
+<style>
+body{margin:0;background:#fff;font-family:Arial,sans-serif;color:#222}
+.wrap{max-width:720px;margin:0 auto;padding:6px}
+canvas{display:block;width:100%;max-width:700px;border:1px solid #ddd;border-radius:6px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:13px}
+button,select{font-size:13px;padding:3px 8px;border:1px solid #bbb;border-radius:4px;background:#f7f7f7;cursor:pointer}
+button:hover{background:#eee}
+#status{margin-top:5px;font-size:13px;min-height:34px;line-height:1.35}
+b.o{color:#ff7f0e}
+</style></head><body><div class="wrap">
+<canvas id="c" width="700" height="330"></canvas>
+<div class="row">
+ <button id="step">Step</button><button id="play">Play</button><button id="all">All</button><button id="reset">Reset</button>
+ <label>Image <select id="img"><option value="slide">slide 14 (6×6)</option><option value="three">digit 3 (9×9)</option><option value="rand">random</option></select></label>
+ <label>Filter <select id="ker">
+  <option value="right">right column (slide 14)</option><option value="vedge">vertical edge</option>
+  <option value="hedge">horizontal edge</option><option value="blur">blur (mean)</option>
+  <option value="sharp">sharpen</option><option value="id">identity</option></select></label>
+</div>
+<div class="row">
+ <label>Stride <select id="s"><option>1</option><option>2</option></select></label>
+ <label>Padding <select id="p"><option>0</option><option>1</option></select></label>
+ <label><input type="checkbox" id="relu"> ReLU</label>
+ <span id="size" style="margin-left:8px"></span>
+</div>
+<div id="status">Press <b>Step</b> to slide the filter one position.</div>
+</div>
+<script>
+const IM={
+ slide:[[1,0,0,0,0,0],[1,1,0,1,1,0],[0,0,0,0,1,1],[0,0,0,1,0,0],[1,0,0,1,0,0],[1,1,0,1,0,0]],
+ three:[[0,0,0,0,0,0,0,0,0],[0,0,1,1,1,1,0,0,0],[0,0,0,0,0,1,1,0,0],[0,0,0,0,0,1,1,0,0],[0,0,0,1,1,1,0,0,0],[0,0,0,0,0,1,1,0,0],[0,0,0,0,0,1,1,0,0],[0,0,1,1,1,1,0,0,0],[0,0,0,0,0,0,0,0,0]]};
+const KS={right:[[0,0,1],[0,0,1],[0,0,1]],vedge:[[-1,0,1],[-1,0,1],[-1,0,1]],hedge:[[-1,-1,-1],[0,0,0],[1,1,1]],
+ blur:[[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]],sharp:[[0,-1,0],[-1,5,-1],[0,-1,0]],id:[[0,0,0],[0,1,0],[0,0,0]]};
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+let X,K,S,P,Xp,H,W,Z,pos,timer=null;
+const $=id=>document.getElementById(id);
+function f(v){return Math.abs(v-Math.round(v))<1e-9?String(Math.round(v)):v.toFixed(2)}
+function setup(){
+ const im=$('img').value;
+ if(im==='rand'){X=[];for(let i=0;i<7;i++){X.push([]);for(let j=0;j<7;j++)X[i].push(Math.random()<0.35?1:0)}}
+ else X=IM[im].map(r=>r.slice());
+ K=KS[$('ker').value];S=+$('s').value;P=+$('p').value;
+ const n=X.length;Xp=[];for(let i=0;i<n+2*P;i++){Xp.push([]);for(let j=0;j<n+2*P;j++){const a=i-P,b=j-P;Xp[i].push(a>=0&&b>=0&&a<n&&b<n?X[a][b]:0)}}
+ H=W=Math.floor((n+2*P-3)/S)+1;Z=Array.from({length:H},()=>Array(W).fill(null));pos=-1;
+ $('size').innerHTML=`n_out = ⌊(${n} + 2·${P} − 3)/${S}⌋ + 1 = <b>${H}</b> → output ${H}×${W}`;
+ $('status').innerHTML='Press <b>Step</b> to slide the filter one position.';stop();draw();
+}
+function val(i,j){let s=0;for(let m=0;m<3;m++)for(let k=0;k<3;k++)s+=Xp[i*S+m][j*S+k]*K[m][k];return $('relu').checked?Math.max(0,s):s}
+function step(){
+ if(pos>=H*W-1){stop();return false}
+ pos++;const i=Math.floor(pos/W),j=pos%W;Z[i][j]=val(i,j);
+ const terms=[];let raw=0;for(let m=0;m<3;m++)for(let k=0;k<3;k++){const w=K[m][k],x=Xp[i*S+m][j*S+k];raw+=w*x;if(w!==0&&x!==0)terms.push(`${f(w)}·${f(x)}`)}
+ $('status').innerHTML=`Window at row ${i*S}, col ${j*S} of the ${P?'padded ':''}input → <b class="o">z[${i},${j}] = ${terms.length?terms.join(' + '):'0'} = ${f(raw)}</b>`+
+  ($('relu').checked&&raw<0?` → ReLU gives 0`:'')+`. Only products where both weight and pixel are non-zero are listed.`;
+ draw();return true}
+function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='Play'}}
+function color(v,vmax){if(v===null)return'#fff';if(v>0){const t=Math.min(v/vmax,1);return`rgba(148,103,189,${0.15+0.7*t})`}if(v<0){const t=Math.min(-v/vmax,1);return`rgba(214,39,40,${0.12+0.6*t})`}return'#fff'}
+function cellGrid(M,x0,y0,c,vmax,opts={}){
+ ctx.font=`${Math.max(9,Math.round(c*0.42))}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';
+ for(let i=0;i<M.length;i++)for(let j=0;j<M[0].length;j++){
+  const v=M[i][j],pad=opts.pad&&(i<P||j<P||i>=M.length-P||j>=M.length-P);
+  ctx.fillStyle=pad?'#f4f4f4':color(v,vmax);ctx.fillRect(x0+j*c,y0+i*c,c,c);
+  ctx.strokeStyle=pad?'#ccc':'#444';ctx.lineWidth=1;ctx.strokeRect(x0+j*c,y0+i*c,c,c);
+  if(v!==null){ctx.fillStyle=pad?'#aaa':'#222';ctx.fillText(f(v),x0+j*c+c/2,y0+i*c+c/2+1)}}}
+function draw(){
+ ctx.clearRect(0,0,cv.width,cv.height);ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
+ const N=Xp.length,ci=Math.min(30,280/N),x0=20,y0=40;
+ ctx.fillStyle='#222';ctx.font='bold 14px Arial';ctx.textAlign='left';
+ ctx.fillText(P?'input (grey = zero padding)':'input',x0,22);
+ cellGrid(Xp,x0,y0,ci,1.5,{pad:true});
+ const kx=x0+N*ci+40;ctx.fillStyle='#222';ctx.font='bold 14px Arial';ctx.textAlign='left';ctx.fillText('filter',kx,22);
+ const kmax=Math.max(...K.flat().map(Math.abs));cellGrid(K,kx,y0,30,kmax);
+ ctx.font='12px Arial';ctx.fillStyle='#666';ctx.fillText('purple +, red −',kx,y0+105);
+ const ox=kx+130,co=Math.min(32,(cv.width-ox-15)/W,260/H);
+ ctx.fillStyle='#222';ctx.font='bold 14px Arial';ctx.fillText('feature map',ox,22);
+ const zmax=Math.max(1,...Z.flat().filter(v=>v!==null).map(Math.abs));cellGrid(Z,ox,y0,co,zmax);
+ if(pos>=0){const i=Math.floor(pos/W),j=pos%W;
+  ctx.strokeStyle='#ff7f0e';ctx.lineWidth=4;ctx.strokeRect(x0+j*S*ci,y0+i*S*ci,3*ci,3*ci);
+  ctx.strokeRect(ox+j*co,y0+i*co,co,co);
+}
+}
+$('step').onclick=()=>{stop();step()};
+$('play').onclick=()=>{if(timer){stop();return}if(pos>=H*W-1)setup();$('play').textContent='Pause';timer=setInterval(()=>{if(!step())stop()},450)};
+$('all').onclick=()=>{stop();while(step());};
+$('reset').onclick=setup;
+['img','ker','s','p','relu'].forEach(id=>$(id).onchange=setup);
+setup();
+</script></body></html>

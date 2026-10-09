@@ -8,3 +8,4 @@ Render a scene with `manim -qm --format mp4 scenes.py <SceneName>` from that fol
 | Folder | Course |
 | --- | --- |
 | `perception/` | 34759 Perception for Autonomous Systems |
+| `deep-learning/` | 02456 Deep Learning |

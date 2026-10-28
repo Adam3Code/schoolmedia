@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>NMS step by step</title>
+<style>
+body{margin:0;background:#fff;font-family:Arial,sans-serif;color:#222}
+.w{max-width:720px;margin:0 auto;padding:8px}
+canvas{border:1px solid #ddd;border-radius:6px;display:block;background:#f4f1ea}
+.c{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px;font-size:14px}
+button{padding:5px 10px;border:1px solid #bbb;border-radius:5px;background:#f6f6f6;cursor:pointer}
+#st{margin-top:6px;font-size:14px;min-height:38px}
+</style></head><body><div class="w">
+<canvas id="cv" width="700" height="300"></canvas>
+<div class="c">
+<button id="step">Step</button><button id="play">Play</button><button id="reset">Reset</button><button id="new">New detections</button>
+<label>IoU threshold <b id="tv">0.50</b> <input id="t" type="range" min="0.1" max="0.9" step="0.05" value="0.5"></label>
+<span>kept: <b id="nk">0</b> · suppressed: <b id="ns">0</b> · left: <b id="nl">0</b></span>
+</div>
+<div id="st">A detector fired many overlapping boxes on 3 pedestrians. Press Step.</div>
+</div>
+<script>
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+const objs=[{x:110,y:70,w:70,h:170},{x:300,y:60,w:75,h:185},{x:360,y:80,w:65,h:160},{x:560,y:90,w:60,h:150}];
+let B=[],phase=0,cur=-1,timer=null;
+function iou(a,b){const x1=Math.max(a.x,b.x),y1=Math.max(a.y,b.y),x2=Math.min(a.x+a.w,b.x+b.w),y2=Math.min(a.y+a.h,b.y+b.h);
+ const i=Math.max(0,x2-x1)*Math.max(0,y2-y1);return i/(a.w*a.h+b.w*b.h-i)}
+function gen(){B=[];objs.forEach((o,j)=>{const n=4+Math.floor(Math.random()*3);for(let i=0;i<n;i++){const s=i==0?0.75+Math.random()*0.23:0.35+Math.random()*0.5;
+ B.push({x:o.x+(Math.random()-0.5)*30,y:o.y+(Math.random()-0.5)*24,w:o.w*(0.85+Math.random()*0.3),h:o.h*(0.85+Math.random()*0.25),s,st:'cand'})}});
+ B.sort((a,b)=>b.s-a.s);reset()}
+function reset(){B.forEach(b=>b.st='cand');phase=0;cur=-1;stop();msg('Detections sorted by score (highest first). Press Step to keep the best one.');draw()}
+function msg(t){document.getElementById('st').innerHTML=t}
+function step(){const thr=+document.getElementById('t').value;
+ if(phase==0){const i=B.findIndex(b=>b.st=='cand');if(i<0){msg('Done: no candidates left. Each object should now have exactly one box.');stop();return}
+  B[i].st='keep';cur=i;phase=1;msg(`Highest remaining score <b>${B[i].s.toFixed(2)}</b>: keep it (green). Next step: remove boxes that overlap it too much.`)}
+ else{let n=0,lst=[];B.forEach((b,j)=>{if(b.st=='cand'){const v=iou(B[cur],b);if(v>thr){b.st='sup';n++;lst.push(v.toFixed(2))}}});
+  phase=0;msg(n?`Suppressed <b>${n}</b> box(es) with IoU &gt; ${thr.toFixed(2)} to the kept box (IoU ${lst.join(', ')}). They describe the same object.`:`No remaining box overlaps the kept one by more than ${thr.toFixed(2)}, so nothing is removed.`)}
+ draw()}
+function draw(){cx.fillStyle='#f4f1ea';cx.fillRect(0,0,700,300);cx.fillStyle='#d8d3c8';cx.fillRect(0,250,700,50);
+ objs.forEach(o=>{cx.fillStyle='#e07b39';cx.fillRect(o.x+o.w*0.25,o.y+o.h*0.18,o.w*0.5,o.h*0.42);cx.fillStyle='#34405a';cx.fillRect(o.x+o.w*0.3,o.y+o.h*0.6,o.w*0.4,o.h*0.4);
+  cx.fillStyle='#e8c39e';cx.beginPath();cx.arc(o.x+o.w/2,o.y+o.h*0.1,o.w*0.17,0,7);cx.fill()});
+ B.forEach((b,j)=>{if(b.st=='sup'){cx.strokeStyle='rgba(150,150,150,0.35)';cx.setLineDash([4,4]);cx.lineWidth=1}
+  else if(b.st=='keep'){cx.strokeStyle='#2ca02c';cx.setLineDash([]);cx.lineWidth=j==cur?4:3}
+  else{cx.strokeStyle='rgba(214,39,40,0.8)';cx.setLineDash([]);cx.lineWidth=1.5}
+  cx.strokeRect(b.x,b.y,b.w,b.h);cx.setLineDash([]);
+  if(b.st!='sup'){cx.font='12px Arial';cx.fillStyle=b.st=='keep'?'#2ca02c':'#d62728';cx.fillText(b.s.toFixed(2),b.x+2,b.y-3)}});
+ const c=s=>B.filter(b=>b.st==s).length;document.getElementById('nk').textContent=c('keep');document.getElementById('ns').textContent=c('sup');document.getElementById('nl').textContent=c('cand')}
+function stop(){if(timer){clearInterval(timer);timer=null;document.getElementById('play').textContent='Play'}}
+document.getElementById('step').onclick=()=>{stop();step()};
+document.getElementById('play').onclick=()=>{if(timer)stop();else{timer=setInterval(step,900);document.getElementById('play').textContent='Pause'}};
+document.getElementById('reset').onclick=reset;document.getElementById('new').onclick=gen;
+document.getElementById('t').oninput=e=>{document.getElementById('tv').textContent=(+e.target.value).toFixed(2);reset();
+ const v=+e.target.value;if(v<0.3)msg('Low threshold: aggressive. Two people standing close together may be merged into one box.');else if(v>0.7)msg('High threshold: lenient. Duplicates of the same person may survive.')};
+gen();
+</script></body></html>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="335" viewBox="0 0 900 335" font-family="Arial, sans-serif">
+<rect width="900" height="335" fill="#ffffff"/>
+<text x="450" y="28" font-size="18" fill="#222222" text-anchor="middle" font-weight="bold">Intersection over Union: how much two boxes overlap</text>
+<rect x="60" y="70" width="112" height="112" fill="#d62728" fill-opacity="0.18" stroke="#d62728" stroke-width="2.5"/>
+<rect x="116" y="70" width="112" height="112" fill="#1f77b4" fill-opacity="0.18" stroke="#1f77b4" stroke-width="2.5"/>
+<rect x="116" y="70" width="56" height="112" fill="#9467bd" fill-opacity="0.45"/>
+<text x="145" y="245" font-size="14" fill="#222222" text-anchor="middle" font-weight="normal">overlap 8 / union 24</text>
+<text x="145" y="266" font-size="16" fill="#222222" text-anchor="middle" font-weight="bold">IoU = 0.33</text>
+<text x="145" y="288" font-size="13" fill="#2ca02c" text-anchor="middle" font-weight="normal">NMS at 0.5: kept (IoU ≤ 0.5)</text>
+<rect x="350" y="70" width="112" height="112" fill="#d62728" fill-opacity="0.18" stroke="#d62728" stroke-width="2.5"/>
+<rect x="378" y="98" width="112" height="112" fill="#1f77b4" fill-opacity="0.18" stroke="#1f77b4" stroke-width="2.5"/>
+<rect x="378" y="98" width="84" height="84" fill="#9467bd" fill-opacity="0.45"/>
+<text x="435" y="245" font-size="14" fill="#222222" text-anchor="middle" font-weight="normal">overlap 9 / union 23</text>
+<text x="435" y="266" font-size="16" fill="#222222" text-anchor="middle" font-weight="bold">IoU = 0.39</text>
+<text x="435" y="288" font-size="13" fill="#2ca02c" text-anchor="middle" font-weight="normal">NMS at 0.5: kept (IoU ≤ 0.5)</text>
+<rect x="640" y="70" width="112" height="112" fill="#d62728" fill-opacity="0.18" stroke="#d62728" stroke-width="2.5"/>
+<rect x="640" y="70" width="112" height="84" fill="#1f77b4" fill-opacity="0.18" stroke="#1f77b4" stroke-width="2.5"/>
+<rect x="640" y="70" width="112" height="84" fill="#9467bd" fill-opacity="0.45"/>
+<text x="725" y="245" font-size="14" fill="#222222" text-anchor="middle" font-weight="normal">overlap 12 / union 16</text>
+<text x="725" y="266" font-size="16" fill="#222222" text-anchor="middle" font-weight="bold">IoU = 0.75</text>
+<text x="725" y="288" font-size="13" fill="#d62728" text-anchor="middle" font-weight="normal">NMS at 0.5: suppressed (IoU &gt; 0.5)</text>
+<text x="450" y="320" font-size="13" fill="#9a9a9a" text-anchor="middle" font-weight="normal">Both boxes are 4×4 units; the purple area is the intersection.</text>
+</svg>

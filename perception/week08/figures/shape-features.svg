@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" font-family="Arial, sans-serif">
+<rect width="900" height="430" fill="#ffffff"/>
+<text x="450" y="28" font-size="18" fill="#222222" text-anchor="middle" font-weight="bold">Eigenvalues of a point's neighbourhood describe its shape</text>
+<path d="M153 145h0M148 130h0M151 139h0M146 160h0M154 152h0M153 125h0M149 140h0M150 134h0M149 147h0M149 101h0M155 118h0M151 179h0M150 114h0M153 101h0M149 116h0M150 160h0M152 158h0M147 170h0M149 189h0M148 147h0M154 111h0M150 120h0M150 130h0M153 111h0M146 130h0M151 173h0M158 116h0M146 156h0M149 104h0M145 161h0M150 186h0M153 122h0M154 183h0M151 110h0M151 153h0M147 120h0M148 189h0M152 141h0M146 127h0M153 178h0M150 135h0M152 182h0M149 163h0M149 156h0M148 134h0M148 184h0M149 175h0M155 118h0M143 124h0M156 148h0M151 168h0M148 124h0M148 149h0M154 164h0M147 111h0M151 175h0M159 117h0M155 132h0M150 130h0M146 128h0M151 122h0M149 108h0M150 104h0M148 169h0M151 178h0M147 106h0M149 170h0M142 170h0M150 119h0M153 99h0M148 116h0M148 144h0M149 155h0M155 96h0M148 123h0M146 132h0M149 190h0M157 174h0M148 193h0M152 106h0M150 169h0M143 179h0M147 141h0M148 175h0M149 139h0M148 102h0M153 106h0M150 170h0M154 105h0M151 152h0M156 143h0M148 162h0M150 97h0M148 163h0M148 123h0M152 133h0M152 125h0M152 180h0M149 140h0M147 97h0M147 137h0M148 175h0M153 187h0M153 162h0M153 121h0M158 192h0M147 191h0M147 130h0M155 110h0M149 149h0M152 134h0M151 165h0M150 168h0M149 143h0M153 173h0M152 148h0M149 177h0M156 105h0M155 130h0M152 183h0M150 173h0M151 113h0M150 157h0M148 171h0M150 193h0M149 127h0M147 138h0M150 111h0M144 177h0M148 121h0M153 112h0M150 116h0M151 124h0M154 146h0M153 188h0M150 130h0M158 191h0M152 183h0M153 153h0M147 181h0M148 149h0M145 115h0M150 175h0M148 118h0M147 95h0M151 191h0M151 150h0M158 125h0M151 121h0M151 168h0" stroke="#d62728" stroke-width="4.4" stroke-linecap="round" fill="none"/>
+<text x="150" y="62" font-size="15" fill="#d62728" text-anchor="middle" font-weight="bold">Pole (linear)</text>
+<rect x="75" y="220" width="36" height="80" fill="#d62728"/>
+<text x="93" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ1</text>
+<rect x="130" y="299" width="36" height="1" fill="#d62728"/>
+<text x="148" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ2</text>
+<rect x="185" y="299" width="36" height="1" fill="#d62728"/>
+<text x="203" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ3</text>
+<line x1="65" y1="300" x2="245" y2="300" stroke="#222222"/>
+<text x="150" y="344" font-size="13" fill="#d62728" text-anchor="middle" font-weight="normal">linearity 0.91</text>
+<text x="150" y="362" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">planarity 0.01</text>
+<text x="150" y="380" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">scattering 0.08</text>
+<path d="M449 175h0M429 143h0M388 151h0M415 167h0M423 172h0M475 163h0M441 165h0M448 104h0M494 126h0M413 152h0M453 162h0M375 145h0M479 144h0M475 159h0M388 136h0M401 127h0M454 180h0M492 158h0M394 146h0M455 185h0M409 161h0M460 141h0M414 163h0M452 126h0M474 168h0M419 173h0M474 172h0M452 154h0M497 159h0M450 146h0M449 144h0M441 158h0M406 122h0M487 150h0M446 112h0M446 189h0M402 128h0M494 138h0M486 150h0M441 156h0M438 114h0M443 180h0M432 137h0M417 145h0M452 163h0M517 152h0M380 145h0M416 160h0M494 138h0M426 137h0M483 169h0M474 140h0M425 119h0M441 118h0M409 135h0M452 140h0M517 145h0M440 113h0M450 110h0M415 137h0M452 151h0M453 137h0M439 143h0M410 133h0M501 149h0M485 122h0M442 185h0M437 107h0M468 130h0M422 148h0M438 184h0M497 137h0M460 141h0M392 146h0M500 134h0M504 152h0M464 163h0M461 183h0M491 130h0M441 133h0M419 136h0M471 163h0M473 161h0M420 176h0M433 181h0M473 128h0M500 151h0M474 148h0M462 113h0M487 133h0M458 156h0M385 154h0M503 155h0M500 145h0M411 135h0M444 123h0M449 98h0M520 145h0M392 147h0M510 142h0M439 151h0M420 120h0M404 144h0M429 134h0M494 146h0M463 124h0M442 115h0M509 153h0M472 135h0M431 115h0M481 172h0M462 154h0M481 120h0M427 125h0M430 175h0M380 147h0M502 157h0M500 141h0M485 145h0M503 139h0M500 150h0M412 166h0M445 177h0M422 124h0M463 158h0M454 168h0M409 141h0M402 135h0M465 177h0M475 170h0M448 108h0M442 158h0M409 135h0M454 116h0M511 149h0M452 158h0M481 152h0M406 148h0M491 147h0M450 160h0M428 144h0M482 126h0M448 123h0M470 144h0M440 121h0M480 124h0M502 149h0M460 153h0M481 137h0M406 133h0" stroke="#1f77b4" stroke-width="4.4" stroke-linecap="round" fill="none"/>
+<text x="450" y="62" font-size="15" fill="#1f77b4" text-anchor="middle" font-weight="bold">Road (planar)</text>
+<rect x="375" y="220" width="36" height="80" fill="#1f77b4"/>
+<text x="393" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ1</text>
+<rect x="430" y="231" width="36" height="69" fill="#1f77b4"/>
+<text x="448" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ2</text>
+<rect x="485" y="300" width="36" height="1" fill="#1f77b4"/>
+<text x="503" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ3</text>
+<line x1="365" y1="300" x2="545" y2="300" stroke="#222222"/>
+<text x="450" y="344" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">linearity 0.07</text>
+<text x="450" y="362" font-size="13" fill="#1f77b4" text-anchor="middle" font-weight="normal">planarity 0.90</text>
+<text x="450" y="380" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">scattering 0.03</text>
+<path d="M777 128h0M751 163h0M725 121h0M753 141h0M739 161h0M746 113h0M772 113h0M739 143h0M717 139h0M740 148h0M764 160h0M747 131h0M738 129h0M772 222h0M748 132h0M762 203h0M753 142h0M786 129h0M725 125h0M793 187h0M770 119h0M752 111h0M737 178h0M783 140h0M758 128h0M730 154h0M751 104h0M720 151h0M762 123h0M751 127h0M723 126h0M728 156h0M749 113h0M763 153h0M792 149h0M780 129h0M761 170h0M753 121h0M745 135h0M747 146h0M763 135h0M745 134h0M745 174h0M743 155h0M758 100h0M759 173h0M753 168h0M775 114h0M717 125h0M728 164h0M747 152h0M726 145h0M750 140h0M782 169h0M752 158h0M753 164h0M733 139h0M726 134h0M738 162h0M785 139h0M763 142h0M753 125h0M731 143h0M754 149h0M757 150h0M805 150h0M759 133h0M776 145h0M715 117h0M736 153h0M736 156h0M739 130h0M774 149h0M748 201h0M727 164h0M741 186h0M744 145h0M723 145h0M756 165h0M763 152h0M731 116h0M752 156h0M732 172h0M781 125h0M773 139h0M747 138h0M751 142h0M734 127h0M751 155h0M791 141h0M732 139h0M761 136h0M734 173h0M752 183h0M768 146h0M754 169h0M752 127h0M764 147h0M780 124h0M738 182h0M770 142h0M789 165h0M781 160h0M762 135h0M755 131h0M783 138h0M765 148h0M745 127h0M730 177h0M755 140h0M784 130h0M746 121h0M736 146h0M753 170h0M737 137h0M714 131h0M746 117h0M735 125h0M749 137h0M745 100h0M736 128h0M723 149h0M799 109h0M778 126h0M740 125h0M766 137h0M743 140h0M723 135h0M720 175h0M742 118h0M754 133h0M741 176h0M731 113h0M741 143h0M746 168h0M781 148h0M722 163h0M790 141h0M761 115h0M722 171h0M767 112h0M760 157h0M702 145h0M728 171h0M744 150h0M758 163h0M769 150h0M745 122h0M772 160h0M752 143h0" stroke="#2ca02c" stroke-width="4.4" stroke-linecap="round" fill="none"/>
+<text x="750" y="62" font-size="15" fill="#2ca02c" text-anchor="middle" font-weight="bold">Bush (scattered)</text>
+<rect x="675" y="220" width="36" height="80" fill="#2ca02c"/>
+<text x="693" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ1</text>
+<rect x="730" y="232" width="36" height="68" fill="#2ca02c"/>
+<text x="748" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ2</text>
+<rect x="785" y="238" width="36" height="62" fill="#2ca02c"/>
+<text x="803" y="318" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">λ3</text>
+<line x1="665" y1="300" x2="845" y2="300" stroke="#222222"/>
+<text x="750" y="344" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">linearity 0.08</text>
+<text x="750" y="362" font-size="13" fill="#222222" text-anchor="middle" font-weight="normal">planarity 0.04</text>
+<text x="750" y="380" font-size="13" fill="#2ca02c" text-anchor="middle" font-weight="normal">scattering 0.88</text>
+<text x="450" y="410" font-size="13" fill="#9a9a9a" text-anchor="middle" font-weight="normal">σᵢ = √λᵢ.  linearity = (σ1−σ2)/σ1,  planarity = (σ2−σ3)/σ1,  scattering = σ3/σ1  (they sum to 1)</text>
+</svg>

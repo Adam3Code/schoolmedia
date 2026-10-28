@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>k-NN playground</title>
+<style>
+body{margin:0;background:#fff;font-family:Arial,sans-serif;color:#222}
+.w{max-width:720px;margin:0 auto;padding:8px}
+canvas{border:1px solid #ddd;border-radius:6px;display:block;cursor:crosshair}
+.c{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px;font-size:14px}
+button{padding:5px 10px;border:1px solid #bbb;border-radius:5px;background:#f6f6f6;cursor:pointer}
+#st{margin-top:6px;font-size:14px;min-height:38px}
+</style></head><body><div class="w">
+<canvas id="cv" width="700" height="320"></canvas>
+<div class="c">
+<label>k = <b id="kv">5</b> <input id="k" type="range" min="1" max="25" step="2" value="5"></label>
+<button id="step">k + 2</button>
+<label>distance <select id="m"><option value="e">Euclidean</option><option value="m">Manhattan</option></select></label>
+<label><input id="reg" type="checkbox"> show decision regions</label>
+<label>noise <input id="nz" type="range" min="0" max="30" value="10"></label>
+<button id="new">New data</button>
+</div>
+<div id="st">Click anywhere to place a new sample.</div>
+</div>
+<script>
+const cv=document.getElementById('cv'),cx=cv.getContext('2d'),W=cv.width,H=cv.height;
+const RED='#d62728',BLUE='#1f77b4';let pts=[],q={x:330,y:150};
+function rn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function gen(){pts=[];const nz=+document.getElementById('nz').value/100;
+ for(let i=0;i<40;i++){pts.push({x:220+rn()*70,y:150+rn()*60,c:0});pts.push({x:470+rn()*70,y:170+rn()*60,c:1})}
+ pts.forEach(p=>{if(Math.random()<nz)p.c=1-p.c});draw()}
+function dist(a,b){const m=document.getElementById('m').value;return m=='e'?Math.hypot(a.x-b.x,a.y-b.y):Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+function knn(p,k){const d=pts.map(t=>({t,d:dist(p,t)})).sort((a,b)=>a.d-b.d).slice(0,k);const r=d.filter(o=>o.t.c==0).length;return{d,r}}
+function draw(){const k=+document.getElementById('k').value;document.getElementById('kv').textContent=k;
+ cx.fillStyle='#fff';cx.fillRect(0,0,W,H);
+ if(document.getElementById('reg').checked){for(let x=0;x<W;x+=10)for(let y=0;y<H;y+=10){const {r}=knn({x:x+5,y:y+5},k);cx.fillStyle=r>k-r?'rgba(214,39,40,0.13)':'rgba(31,119,180,0.13)';cx.fillRect(x,y,10,10)}}
+ const {d,r}=knn(q,k);
+ cx.lineWidth=1.5;d.forEach(o=>{cx.strokeStyle=o.t.c?BLUE:RED;cx.beginPath();cx.moveTo(q.x,q.y);cx.lineTo(o.t.x,o.t.y);cx.stroke()});
+ const R=d[d.length-1].d+4;cx.setLineDash([5,4]);cx.strokeStyle='#222';cx.beginPath();
+ if(document.getElementById('m').value=='e')cx.arc(q.x,q.y,R,0,7);else{cx.moveTo(q.x,q.y-R);cx.lineTo(q.x+R,q.y);cx.lineTo(q.x,q.y+R);cx.lineTo(q.x-R,q.y);cx.closePath()}
+ cx.stroke();cx.setLineDash([]);
+ pts.forEach(p=>{cx.fillStyle=p.c?BLUE:RED;cx.beginPath();cx.arc(p.x,p.y,4.5,0,7);cx.fill()});
+ cx.fillStyle='#222';cx.beginPath();cx.arc(q.x,q.y,7,0,7);cx.fill();
+ const win=r>k-r?'red':'blue';cx.font='bold 15px Arial';cx.fillStyle=win=='red'?RED:BLUE;cx.fillText('→ '+win,q.x+10,q.y-10);
+ document.getElementById('st').innerHTML=`Of the <b>${k}</b> nearest samples, <b style="color:${RED}">${r}</b> are red and <b style="color:${BLUE}">${k-r}</b> blue, so p(red) = ${r}/${k} = ${(r/k).toFixed(2)} → <b>${win}</b>. `+
+ (k==1?'With k = 1 a single (maybe noisy) neighbour decides alone.':k>=15?'Large k: the vote is stable, but the boundary gets blurred and small groups get outvoted.':'Odd k avoids ties between two classes.')}
+cv.addEventListener('click',e=>{const b=cv.getBoundingClientRect();q={x:(e.clientX-b.left)*W/b.width,y:(e.clientY-b.top)*H/b.height};draw()});
+['k','m','reg'].forEach(i=>document.getElementById(i).addEventListener('input',draw));
+document.getElementById('nz').addEventListener('change',gen);
+document.getElementById('step').onclick=()=>{const s=document.getElementById('k');s.value=Math.min(25,+s.value+2);draw()};
+document.getElementById('new').onclick=gen;gen();
+</script></body></html>
